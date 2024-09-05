@@ -28,11 +28,11 @@ utilizzati durante la fase di pagamento, ovvero:
 - STRIPE_WEBHOOK_SECRET_TEST
 - PRODUCT_PRICE
 
-Si usa il commando
-'''console 
+Si usa il commando:
+```
 export
-''' 
-per caricarli nell'abiente virtuale.
+``` 
+Per caricarli nell'abiente virtuale.
 
 Le variabili si ottengono dopo: 
 - Essersi iscritti a "Stripe"
