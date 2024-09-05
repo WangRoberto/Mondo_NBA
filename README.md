@@ -29,7 +29,7 @@ utilizzati durante la fase di pagamento, ovvero:
 - PRODUCT_PRICE
 
 Si usa il commando:
-```
+```bash
 export
 ``` 
 Per caricarli nell'abiente virtuale.
