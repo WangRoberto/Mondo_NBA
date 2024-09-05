@@ -21,14 +21,16 @@
 
 ## Utilizzo
 Dopo aver installato i vari pacchetti, 
-si devono caricare nell'ambiente diverse variabili,
+si devono caricare nell'ambiente virtuale diverse variabili,
 utilizzati durante la fase di pagamento, ovvero:
 - STRIPE_SECRET_KEY_TEST
 - STRIPE_PUBLIC_KEY_TEST
 - STRIPE_WEBHOOK_SECRET_TEST
 - PRODUCT_PRICE
 
-Variabili che si ottengono dopo: 
+Si usa il commando '''console export''' per caricarli nell'abiente virtuale.
+
+Le variabili si ottengono dopo: 
 - Essersi iscritti a "Stripe"
 - Creato un prodotto
 - Lanciato il seguente commando (serve per accettare le richieste di pagamento ed ottenere "STRIPE_WEBHOOK_SECRET_TEST"):
