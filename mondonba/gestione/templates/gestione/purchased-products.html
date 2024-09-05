@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block head %} {% endblock %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% load static %}
+
+{% block content%}
+
+	<!-- Shoping Cart -->
+	<div class="bg0 p-t-75 p-b-85">
+		<div class="container">
+			<div class="p-b-45">
+				<h3 class="ltext-106 cl5 txt-center">
+					Purchased Products
+				</h3>
+			</div>
+			<div class="row">
+				<div class="col-lg-10 col-xl-7 m-lr-auto m-b-50" style="flex: 0 0 85%; max-width: 85%;">
+					<div class="m-l-25 m-r--38 m-lr-0-xl">
+						<div class="wrap-table-shopping-cart">
+							<table class="table-shopping-cart">
+								<tr class="table_head">
+									<th class="column-1">Product</th>
+									<th class="column-2" style="text-align: center">Name</th>
+									<th class="column-3" style="text-align: center">Price</th>
+									<th class="column-3" style="text-align: center">Quantity</th>
+									<th class="column-3" style="text-align: center">Destination</th>
+									<th class="column-5" style="text-align: center;">Total</th>
+								</tr>
+
+								{% for payment in object_list %}
+									<tr class="table_row">
+										<td class="column-1">
+											<div class="how-itemcart1">
+												{% if payment.product %}
+													<img src="{{payment.product.image.url}}" alt="IMG">
+												{% endif %}
+												{% if not payment.product %}
+													<img src="{% static 'images/no-image.jpg' %}" alt="IMG">
+												{% endif %}
+											</div>
+										</td>
+										{% if payment.product %}
+											<td class="column-2" style="text-align: center">{{payment.product.name}}</td>
+										{% endif %}
+										{% if not payment.product %}
+											<td class="column-2" style="text-align: center">NaN</td>
+										{% endif %}
+										{% if payment.product %}
+											<td class="column-3 productPrice" style="text-align: center">€{{payment.product.price}}</td>
+										{% endif %}
+										{% if not payment.product %}
+											<td class="column-3 productPrice" style="text-align: center">€NaN</td>
+										{% endif %}
+										<td class="column-3 productQuantity" style="text-align: center">{{payment.quantity}}</td>
+										<td class="column-3" style="text-align: center">{{payment.address}}</td>
+										<td class="column-5 totalPriceProduct" style="text-align: center" ></td>
+									</tr>
+
+								{% endfor %}
+							</table>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block script %}
+	<script>
+		message = "{{message}}"
+		if(message != ""){
+			sweetAlert("Success", message, "success");
+		}
+
+	</script>
+
+	<script>
+
+		for (let i = 0; i < document.getElementsByClassName("productPrice").length; i++) {
+			let productQuantity = parseInt(document.getElementsByClassName("productQuantity")[i].textContent)
+			let priceProduct = parseFloat(document.getElementsByClassName("productPrice")[i].textContent.substring(1))
+			let res = (productQuantity * priceProduct)
+			document.getElementsByClassName("totalPriceProduct")[i].textContent = "€" + res
+		}
+
+	</script>
+
+	<script>
+		$(".js-select2").each(function(){
+			$(this).select2({
+				minimumResultsForSearch: 20,
+				dropdownParent: $(this).next('.dropDownSelect2')
+			});
+		})
+	</script>
+
+	<script>
+		$('.js-pscroll').each(function(){
+			$(this).css('position','relative');
+			$(this).css('overflow','hidden');
+			var ps = new PerfectScrollbar(this, {
+				wheelSpeed: 1,
+				scrollingThreshold: 1000,
+				wheelPropagation: false,
+			});
+
+			$(window).on('resize', function(){
+				ps.update();
+			})
+		});
+	</script>
+
+{% endblock %}

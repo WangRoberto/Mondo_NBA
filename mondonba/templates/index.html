@@ -1,0 +1,461 @@
+{% extends "base.html" %}
+
+{% block head %} {% endblock %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% load static %}
+
+{% block header %}
+	<!-- Header -->
+	<header class="header-v3">
+		<!-- Header desktop -->
+		<div class="container-menu-desktop">
+
+			<div class="wrap-menu-desktop">
+				<nav class="limiter-menu-desktop container">
+
+					<!-- Logo desktop -->
+					<a href="{% url 'index' %}" class="logo cl0 hov-cl0" style="font-family: 'Helvetica', 'Arial', sans-serif; font-size: 20px;">
+						<div style="font-weight: bold; padding-right: 5px">MONDO</div><div style="font-weight: normal">NBA</div>
+					</a>
+
+					<!-- Menu desktop -->
+					<div class="menu-desktop">
+						<ul class="main-menu">
+							<li>
+								<a href="{% url 'index' %}">Home</a>
+							</li>
+
+							<li>
+								<a href="{% url 'gestione:product' %}">Shop</a>
+							</li>
+
+							<li>
+								<a href="{% url 'about' %}">About</a>
+							</li>
+						</ul>
+					</div>
+
+					<!-- Icon header -->
+					<div class="wrap-icon-header flex-w flex-r-m">
+
+						{% if user.is_authenticated %}
+						<div class="icon-header-item cl0 hov-cl1 trans-04 p-l-22 p-r-11 js-show-cart" id = "cartNotification">
+							<i class="zmdi zmdi-shopping-cart"></i>
+						</div>
+
+						<div class="menu-desktop">
+							<ul class="main-menu">
+								<li class="active-menu">
+									<a class="icon-header-item hov-cl1 trans-04 p-l-22 p-r-11">
+										<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="cl0 hov-cl1 bi bi-person-fill" viewBox="0 0 16 16">
+										  <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+										</svg>
+									</a>
+
+									<ul class="sub-menu">
+										{% if request.user.is_staff %}
+											<li><a href="{% url 'gestione:edit_product' %}?page=1">Edit Product</a></li>
+										{% endif%}
+										<li><a href="{% url 'gestione:purchased_products' %}">Purchased Products</a></li>
+										<li><a href="{% url 'logout' %}">Logout</a></li>
+									</ul>
+								</ul>
+							</li>
+						</div>
+						{% endif %}
+
+						{% if not user.is_authenticated %}
+							<a class="icon-header-item cl0 hov-cl1 trans-04 p-l-22 p-r-11" style="font-family: Poppins-Medium; font-size: 14px;" href="{% url 'login' %}">
+								Sign In
+							</a>
+						{% endif %}
+
+					</div>
+				</nav>
+			</div>
+		</div>
+
+		<!-- Header Mobile -->
+		<div class="wrap-header-mobile">
+			<!-- Logo moblie -->
+			<div class="logo-mobile" style="height: 0px">
+				<a href="{% url 'index' %}" class="logo cl0 hov-cl0" style="font-family: 'Helvetica', 'Arial', sans-serif; font-size: 20px;">
+					<div style="font-weight: bold; padding-right: 5px;">MONDO</div><div style="font-weight: normal;">NBA</div>
+				</a>
+			</div>
+
+			<!-- Button show menu -->
+			<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+				<span class="hamburger-box">
+					<span class="hamburger-inner"></span>
+				</span>
+			</div>
+		</div>
+
+
+		<!-- Menu Mobile -->
+		<div class="menu-mobile">
+			<ul class="main-menu-m">
+				<li>
+					<a href="{% url 'index' %}">Home</a>
+				</li>
+
+				<li>
+					<a href="{% url 'gestione:product' %}">Shop</a>
+				</li>
+
+				<li>
+					<a href="{% url 'about' %}">About</a>
+				</li>
+
+				{% if not user.is_authenticated %}
+					<li>
+						<a href="{% url 'login' %}">
+							Sign In
+						</a>
+					</li>
+				{% endif %}
+
+				{% if user.is_authenticated %}
+					<li>
+						<a href="{% url 'gestione:shoppingCart' %}" >Cart</a>
+					</li>
+
+					{% if request.user.is_staff %}
+						<li>
+							<a href="{% url 'gestione:edit_product' %}?page=1">Edit Product</a>
+						</li>
+					{% endif%}
+
+					<li>
+						<a href="{% url 'gestione:purchased_products' %}">Purchased Products</a>
+					</li>
+
+					<li>
+						<a href="{% url 'logout' %}">Logout</a>
+					</li>
+				{% endif %}
+
+
+			</ul>
+		</div>
+
+		<!-- Modal Search -->
+		<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
+			<div class="container-search-header">
+				<button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
+					<img src="{% static 'images/icons/icon-close.png' %}" alt="CLOSE">
+				</button>
+
+				<form class="wrap-search-header flex-w p-l-15">
+					<button class="flex-c-m trans-04">
+						<i class="zmdi zmdi-search"></i>
+					</button>
+					<input class="plh3" type="text" name="search" placeholder="Search...">
+				</form>
+			</div>
+		</div>
+	</header>
+{% endblock %}
+
+{% block content%}
+
+	<!-- Slider -->
+	<section class="section-slide">
+		<div class="wrap-slick1 rs2-slick1">
+			<div class="slick1">
+				<div class="item-slick1" style="background-image: url('{% static "images/slide-011.jpg" %}');">
+					<div class="container h-full">
+						<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
+							<div class="layer-slick1 animated visible-false" data-appear="fadeInDown" data-delay="0">
+								<span class="ltext-107 cl0 respon2">
+									NBA Collection 2024
+								</span>
+							</div>
+								
+							<div class="layer-slick1 animated visible-false" data-appear="fadeInUp" data-delay="800">
+								<h2 class="ltext-104 cl0 p-t-19 p-b-43 respon1">
+									Olympics Edition
+								</h2>
+							</div>
+								
+							<div class="layer-slick1 animated visible-false" data-appear="zoomIn" data-delay="1600">
+								<a href="{% url 'gestione:product' %}" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+									Shop Now
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="item-slick1" style="background-image: url('{% static "images/slide-02.jpg" %}');">
+					<div class="container h-full">
+						<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
+							<div class="layer-slick1 animated visible-false" data-appear="rollIn" data-delay="0">
+								<span class="ltext-107 cl0 respon2">
+									NBA Collection 2024
+								</span>
+							</div>
+								
+							<div class="layer-slick1 animated visible-false" data-appear="lightSpeedIn" data-delay="800">
+								<h2 class="ltext-104 cl0 p-t-19 p-b-43 respon1">
+									Olympics Edition
+								</h2>
+							</div>
+								
+							<div class="layer-slick1 animated visible-false" data-appear="slideInUp" data-delay="1600">
+								<a href="{% url 'gestione:product' %}" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+									Shop Now
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="item-slick1" style="background-image: url('{% static "images/slide-031.jpg" %}');">
+					<div class="container h-full">
+						<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
+							<div class="layer-slick1 animated visible-false" data-appear="rotateInDownLeft" data-delay="0">
+								<span class="ltext-107 cl0 respon2">
+									NBA Collection 2024
+								</span>
+							</div>
+								
+							<div class="layer-slick1 animated visible-false" data-appear="rotateInUpRight" data-delay="800">
+								<h2 class="ltext-104 cl0 p-t-19 p-b-43 respon1">
+									Olympics Edition
+								</h2>
+							</div>
+								
+							<div class="layer-slick1 animated visible-false" data-appear="rotateIn" data-delay="1600">
+								<a href="{% url 'gestione:product' %}" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+									Shop Now
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Banner -->
+	<div class="sec-banner bg0 p-t-80 p-b-50">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
+					<!-- Block1 -->
+					<div class="block1 wrap-pic-w">
+						<img src="{% static 'images/banner-01.jpg' %}" alt="IMG-BANNER">
+
+						<a href="{% url 'gestione:product' %}" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+
+							<div class="block1-txt-child2 p-b-4 trans-05">
+
+								<div class="block1-txt-child1 flex-col-l">
+									<span class="block1-name cl0 ltext-102 trans-04 p-b-8">
+										Clothing
+									</span>
+
+									<span class="block1-info cl0 stext-102 trans-04">
+										Summer 2024
+									</span>
+								</div>
+
+								<div class="block1-link cl0 stext-101 trans-09" style="padding-top: 100%">
+									Shop Now
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+
+				<div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
+					<!-- Block1 -->
+					<div class="block1 wrap-pic-w ">
+						<img src="{% static 'images/banner-02.jpg' %}" alt="IMG-BANNER">
+
+						<a href="{% url 'gestione:product' %}" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+
+
+							<div class="block1-txt-child2 p-b-4 trans-05">
+								<div class="block1-txt-child1 flex-col-l">
+									<span class="block1-name cl0 ltext-102 trans-04 p-b-8">
+										Tools
+									</span>
+
+									<span class="block1-info cl0 stext-102 trans-04">
+										Summer 2024
+									</span>
+								</div>
+
+								<div class="block1-link cl0 stext-101 trans-09" style="padding-top: 100%">
+									Shop Now
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+
+				<div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
+					<!-- Block1 -->
+					<div class="block1 wrap-pic-w">
+						<img src="{% static 'images/banner-03.jpg' %}" alt="IMG-BANNER">
+
+						<a href="{% url 'gestione:product' %}" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+
+
+							<div class="block1-txt-child2 p-b-4 trans-05">
+								<div class="block1-txt-child1 flex-col-l">
+									<span class="block1-name cl0 ltext-102 trans-04 p-b-8">
+										Gadgets
+									</span>
+
+									<span class="block1-info cl0 stext-102 trans-04">
+										Summer 2024
+									</span>
+								</div>
+
+								<div class="block1-link cl0 stext-101 trans-09" style="padding-top: 100%">
+									Shop Now
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- New Products -->
+	<div class="container">
+		<div class="p-b-45">
+			<h3 class="ltext-106 cl5 txt-center">
+				New Products
+			</h3>
+		</div>
+		<!-- Product -->
+		<div class="bg0 m-t-23 p-b-140">
+			<div class="row isotope-grid" id="loadMore">
+				{% for p in object_list|slice:8 %}
+					<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item loadMoreClass {{p.category}}">
+					<!-- Block2 -->
+					<div class="block2">
+						<div class="block2-pic hov-img0">
+							<img src="{{ p.image.url }}" alt="IMG-PRODUCT">
+
+							<a href="{% url 'gestione:productDetail' p.id %}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 border border-dark">
+								Shop
+							</a>
+						</div>
+
+						<div class="block2-txt flex-w flex-t p-t-14">
+							<div class="block2-txt-child1 flex-col-l ">
+								<a href="{% url 'gestione:productDetail' p.id %}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+									{{p.name}}
+								</a>
+
+								<span class="stext-105 cl3">
+									€{{p.price}}
+								</span>
+
+								<span class="fs-18 cl11">
+									{% for star in p.howManyStars %}
+										<i class="zmdi zmdi-star"></i>
+									{% endfor %}
+									{% for star in p.howManyEmptyStars %}
+										<i class="zmdi zmdi-star-border"></i>
+									{% endfor %}
+								</span>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+
+
+			</div>
+
+		</div>
+	</div>
+
+
+
+{% endblock %}
+
+{% block script %}
+{% if user.is_authenticated %}
+	<script>
+
+		tempMessage =  "{{message}}"
+		if(tempMessage != ""){
+			sweetAlert("Success", tempMessage, "success");
+		}
+
+
+	</script>
+{% endif %}
+
+{% if request.GET.logout %}
+	<script>
+		sweetAlert("Success", "Logout with success!", "success").then(
+			function(){
+				document.location.href = "/"
+			}
+		)
+
+	</script>
+{% endif %}
+
+
+	<script>
+		if (parseInt("{{cart.count}}") > 0){
+			document.getElementById("cartNotification").setAttribute("data-notify", "{{cart.count}}")
+			document.getElementById("cartNotification").classList.add("icon-header-noti")
+		}
+	</script>
+	<script>
+		$(".js-select2").each(function(){
+			$(this).select2({
+				minimumResultsForSearch: 20,
+				dropdownParent: $(this).next('.dropDownSelect2')
+			});
+		})
+	</script>
+
+	<script>
+        $('.parallax100').parallax100();
+	</script>
+
+	<script>
+		$('.gallery-lb').each(function() { // the containers for all your galleries
+			$(this).magnificPopup({
+		        delegate: 'a', // the selector for gallery item
+		        type: 'image',
+		        gallery: {
+		        	enabled:true
+		        },
+		        mainClass: 'mfp-fade'
+		    });
+		});
+	</script>
+
+	<script>
+		$('.js-pscroll').each(function(){
+			$(this).css('position','relative');
+			$(this).css('overflow','hidden');
+			var ps = new PerfectScrollbar(this, {
+				wheelSpeed: 1,
+				scrollingThreshold: 1000,
+				wheelPropagation: false,
+			});
+
+			$(window).on('resize', function(){
+				ps.update();
+			})
+		});
+	</script>
+{% endblock %}

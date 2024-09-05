@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+
+{% block head %} {% endblock %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% load static %}
+
+{% block content%}
+
+	<!-- Product -->
+	<div class="bg0 m-t-23 p-b-140">
+		<div class="container">
+			<div class="flex-w flex-sb-m p-b-52">
+				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
+					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
+						All Products
+					</button>
+
+					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".Clothing">
+						Clothing
+					</button>
+
+					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".Tool">
+						Tool
+					</button>
+
+					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".Gadget">
+						Gadget
+					</button>
+
+				</div>
+
+				<div class="flex-w flex-c-m m-tb-10">
+					<div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
+						<i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
+						<i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+						 Filter
+					</div>
+
+					<div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search" id = "search">
+						<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
+						<i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+						Search
+					</div>
+				</div>
+				
+				<!-- Search product -->
+
+				<div class="dis-none panel-search w-full p-t-10 p-b-15">
+					<div class="bor8 dis-flex p-l-15">
+							<button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
+								<i class="zmdi zmdi-search"></i>
+							</button>
+						<form class="mtext-107 cl2 size-114 plh2 p-r-15" method="get" action="{% url 'gestione:search' %}">
+							<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search-product" placeholder="Search">
+						</form>
+					</div>
+				</div>
+
+				<!-- Filter -->
+				<div class="dis-none panel-filter w-full p-t-10">
+					<div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">
+						<div class="filter-col1 p-r-15 p-b-27">
+							<div class="mtext-102 cl2 p-b-15">
+								Sort By
+							</div>
+
+							<ul>
+								<li class="p-b-6">
+									<a href="{% url 'gestione:product' %}" class="filter-link stext-106 trans-04 filter-link-active">
+										Default
+									</a>
+								</li>
+
+								<li class="p-b-6">
+									<a href="{% url 'gestione:productOrder1' %}" class="filter-link stext-106 trans-04">
+										Average rating
+									</a>
+								</li>
+
+								<li class="p-b-6">
+									<a href="{% url 'gestione:productOrder2' %}" class="filter-link stext-106 trans-04">
+										Price: Low to High
+									</a>
+								</li>
+
+								<li class="p-b-6">
+									<a href="{% url 'gestione:productOrder3' %}" class="filter-link stext-106 trans-04">
+										Price: High to Low
+									</a>
+								</li>
+							</ul>
+						</div>
+
+						<div class="filter-col2 p-r-15 p-b-27">
+							<div class="mtext-102 cl2 p-b-15">
+								Price
+							</div>
+
+							<ul>
+								<li class="p-b-6">
+									<a href="{% url 'gestione:product' %}" class="filter-link stext-106 trans-04 filter-link-active">
+										All
+									</a>
+								</li>
+
+								<li class="p-b-6">
+									<a href="{% url 'gestione:productPrice1' %}" class="filter-link stext-106 trans-04">
+										€0.00 - €50.00
+									</a>
+								</li>
+
+								<li class="p-b-6">
+									<a href="{% url 'gestione:productPrice2' %}" class="filter-link stext-106 trans-04">
+										€50.00 - €100.00
+									</a>
+								</li>
+
+								<li class="p-b-6">
+									<a href="{% url 'gestione:productPrice3' %}" class="filter-link stext-106 trans-04">
+										€100.00 - €150.00
+									</a>
+								</li>
+
+								<li class="p-b-6">
+									<a href="{% url 'gestione:productPrice4' %}" class="filter-link stext-106 trans-04">
+										€150.00 - €200.00
+									</a>
+								</li>
+
+								<li class="p-b-6">
+									<a href="{% url 'gestione:productPrice5' %}" class="filter-link stext-106 trans-04">
+										€200.00+
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row isotope-grid" id="loadMore">
+				{% for p in object_list %}
+					<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item loadMoreClass {{p.category}}">
+					<!-- Block2 -->
+					<div class="block2">
+						<div class="block2-pic hov-img0">
+							<img src="{{ p.image.url }}" alt="IMG-PRODUCT">
+
+							<a href="{% url 'gestione:productDetail' p.id %}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 border border-dark">
+								Shop
+							</a>
+						</div>
+
+						<div class="block2-txt flex-w flex-t p-t-14">
+							<div class="block2-txt-child1 flex-col-l ">
+								<a href="{% url 'gestione:productDetail' p.id %}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+									{% if request.user.is_staff %}
+										Id: {{p.id}}
+									{% endif %}
+									{{p.name}}
+								</a>
+
+
+
+								<span class="stext-105 cl3">
+									€{{p.price}}
+								</span>
+
+								<span class="fs-18 cl11">
+									{% for star in p.howManyStars %}
+										<i class="zmdi zmdi-star"></i>
+									{% endfor %}
+									{% for star in p.howManyEmptyStars %}
+										<i class="zmdi zmdi-star-border"></i>
+									{% endfor %}
+								</span>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+
+
+			</div>
+
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block script %}
+	<script>
+		$(".js-select2").each(function(){
+			$(this).select2({
+				minimumResultsForSearch: 20,
+				dropdownParent: $(this).next('.dropDownSelect2')
+			});
+		})
+	</script>
+
+	<script>
+        $('.parallax100').parallax100();
+	</script>
+
+	<script>
+		$('.gallery-lb').each(function() { // the containers for all your galleries
+			$(this).magnificPopup({
+		        delegate: 'a', // the selector for gallery item
+		        type: 'image',
+		        gallery: {
+		        	enabled:true
+		        },
+		        mainClass: 'mfp-fade'
+		    });
+		});
+	</script>
+
+	<script>
+		$('.js-pscroll').each(function(){
+			$(this).css('position','relative');
+			$(this).css('overflow','hidden');
+			var ps = new PerfectScrollbar(this, {
+				wheelSpeed: 1,
+				scrollingThreshold: 1000,
+				wheelPropagation: false,
+			});
+
+			$(window).on('resize', function(){
+				ps.update();
+			})
+		});
+	</script>
+
+
+{% endblock %}

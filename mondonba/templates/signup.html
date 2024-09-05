@@ -1,0 +1,163 @@
+
+{% extends "base.html" %}
+
+{% block head %} {% endblock %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block content%}
+
+{% load static %}
+	<!-- Title page -->
+	<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('{% static "images/bg-01.jpg" %}');">
+		<h2 class="ltext-105 cl0 txt-center">
+			Sign Up
+		</h2>
+	</section>	
+
+
+	<!-- Content page -->
+	<section class="bg0 p-t-104 p-b-116">
+		<div class="container">
+			<div class="flex-w flex-tr">
+				<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md">
+					<form method="post" id="signUpForm"> {% csrf_token %}
+						<h4 class="mtext-105 cl2 txt-center p-b-30">
+							Sign Up
+						</h4>
+
+						{% if form.errors %}
+							<div class="alert alert-danger" role="alert">
+							  {{ form.errors }}
+							</div>
+						{% endif %}
+
+						{% for fm in form %}
+
+							<div class="bor8 m-b-20 how-pos4-parent">
+								{{fm}}
+
+								{% if fm.name == "username" %}
+									<img class="how-pos4 pointer-none" src="{% static 'images/icons/icon-user.png' %}" alt="ICON">
+								{% endif %}
+
+								{% if fm.name == "email" %}
+									<img class="how-pos4 pointer-none" src="{% static 'images/icons/icon-email.png' %}" alt="ICON">
+								{% endif %}
+
+								{% if fm.name == "password1" or fm.name == "password2" %}
+									<img class="how-pos4 pointer-none" src="{% static 'images/icons/icon-lock.png' %}" alt="ICON">
+								{% endif %}
+
+
+							</div>
+
+						{% endfor %}
+
+						<input type="submit" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer" value="submit">
+
+
+					</form>
+				</div>
+
+				<div class="size-210 bor10 flex-w flex-col-m p-lr-93 p-tb-30 p-lr-15-lg w-full-md">
+					<div class="flex-w w-full p-b-42">
+						<span class="fs-18 cl5 txt-center size-211">
+							<span class="lnr lnr-map-marker"></span>
+						</span>
+
+						<div class="size-212 p-t-2">
+							<span class="mtext-110 cl2">
+								Address
+							</span>
+
+							<p class="stext-115 cl6 size-213 p-t-18">
+								Sede: Via Campi 213/A - 41125 Modena, Italy
+							</p>
+						</div>
+					</div>
+
+					<div class="flex-w w-full p-b-42">
+						<span class="fs-18 cl5 txt-center size-211">
+							<span class="lnr lnr-phone-handset"></span>
+						</span>
+
+						<div class="size-212 p-t-2">
+							<span class="mtext-110 cl2">
+								Lets Talk
+							</span>
+
+							<p class="stext-115 cl1 size-213 p-t-18">
+								+1 800 1236879
+							</p>
+						</div>
+					</div>
+
+					<div class="flex-w w-full">
+						<span class="fs-18 cl5 txt-center size-211">
+							<span class="lnr lnr-envelope"></span>
+						</span>
+
+						<div class="size-212 p-t-2">
+							<span class="mtext-110 cl2">
+								Sale Support
+							</span>
+
+							<p class="stext-115 cl1 size-213 p-t-18">
+								contact@example.com
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Map -->
+	<div class="map">
+		<div class="size-303" id="google_map" data-map-x="44.6320838" data-map-y="10.9409759" data-pin="{% static 'images/icons/pin.png' %}" data-scrollwhell="0" data-draggable="1" data-zoom="5"></div>
+	</div>
+
+
+{% endblock %}
+
+
+
+{% block script %}
+
+{% if user.is_authenticated %}
+	<script>
+
+		window.location.href = '/'
+
+	</script>
+{% endif %}
+
+	<script src="https://maps.googleapis.com/maps/api/js"></script>
+	<script src="{% static 'js/map-custom.js' %}"></script>
+	<!--===============================================================================================-->
+	<script>
+	$(".js-select2").each(function(){
+		$(this).select2({
+			minimumResultsForSearch: 20,
+			dropdownParent: $(this).next('.dropDownSelect2')
+		});
+	})
+	</script>
+
+	<script>
+		$('.js-pscroll').each(function(){
+			$(this).css('position','relative');
+			$(this).css('overflow','hidden');
+			var ps = new PerfectScrollbar(this, {
+				wheelSpeed: 1,
+				scrollingThreshold: 1000,
+				wheelPropagation: false,
+			});
+
+			$(window).on('resize', function(){
+				ps.update();
+			})
+		});
+	</script>
+    {% endblock %}
