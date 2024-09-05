@@ -39,3 +39,9 @@ Le variabili si ottengono dopo:
 - Creato un prodotto
 - Lanciato il seguente commando (serve per accettare le richieste di pagamento ed ottenere "STRIPE_WEBHOOK_SECRET_TEST"):
   - ./stripe listen --forward-to http://127.0.0.1:8000/gestione/stripe_webhook --api-key $STRIPE_SECRET_KEY_TEST
+
+Per il pagamento, si ricorda di utilizzare una carta esistente di Stripe.
+
+Il gestore ha le seguenti credenziali:
+- Username: admin
+- Password: admin

@@ -176,9 +176,10 @@ class ProductDetail(DetailView):
         try:
             if self.request.session["success2"] == False:
                 context["error"] = True
+
                 tempUser = self.request.user
-                tempProduct = Product.objects.filter(id=pk)
-                tempComment = Comment.objects.all().filter(user=tempUser, product=tempProduct)
+                tempProduct = Product.objects.get(id=pk)
+                tempComment = Comment.objects.get(user=tempUser, product=tempProduct)
                 if tempComment:
                     context["message"] = "You can only comment once per product!"
                 self.request.session["success2"] = None
@@ -193,13 +194,10 @@ def addCart(request):
     if "num-product" in request.POST and "idProduct" in request.POST:
         numProducts = request.POST["num-product"]
         idProduct = request.POST["idProduct"]
-        #idUser = request.POST["idUser"]
 
         tempProduct = Product.objects.filter(id=idProduct)
-        #tempUser = User.objects.filter(id=idUser)
         tempUser = request.user.id
 
-        #for i in range(int(numProducts)):
 
         tempCart = Cart.objects.filter(product = idProduct, user = tempUser)
 
