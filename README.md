@@ -2,22 +2,24 @@
 
 E-commerce demo per merchandise NBA, refactored con architettura monorepo: backend Django + DRF e frontend Vue.js.
 
-## Struttura del progetto
+E-commerce demo for NBA merchandise, refactored with monorepo architecture: Django + DRF backend and Vue.js frontend.
+
+## Struttura del progetto / Project structure
 
 ```
 mondo_nba_orchestrator/
 ├── mondo_nba_backend/          # Django 5.1 + Django REST Framework
 │   ├── config/                 # Settings, URL routing, WSGI/ASGI
-│   ├── gestione/               # App principale
+│   ├── gestione/               # Main app
 │   │   ├── models.py           # Product, Cart, Comment, UserPayment
 │   │   ├── serializers.py      # DRF serializers
-│   │   ├── api_views.py        # APIView sottili (delegano ai services)
-│   │   ├── api_urls.py         # URL routing API
+│   │   ├── api_views.py        # Thin APIViews (delegate to services)
+│   │   ├── api_urls.py         # API URL routing
 │   │   ├── services.py         # Business logic (push to DB)
 │   │   ├── selectors.py        # Read queries (pull from DB)
 │   │   └── views.py            # Template views (legacy)
 │   ├── manage.py
-│   ├── setupVariables.sh       # Variabili d'ambiente Stripe (non committato)
+│   ├── setupVariables.sh       # Stripe env vars (not committed)
 │   └── stripe                  # Stripe CLI binary
 └── mondo_nba_frontend/         # Vue 3 + Vite 5 + Pinia + Vue Router
     ├── src/
@@ -25,14 +27,14 @@ mondo_nba_orchestrator/
     │   ├── stores/             # Pinia stores (products, cart)
     │   ├── views/              # Home, ProductDetail, Cart, Login, Register, About, Products, Purchased, Admin
     │   ├── components/         # ProductCard, Pagination, StarRating
-    │   └── router/             # Vue Router con auth guard
+    │   └── router/             # Vue Router with auth guard
     └── vite.config.js
 ```
 
-## Tecnologie
+## Tecnologie / Technologies
 
 ### Backend
-| Package | Versione |
+| Package | Version |
 |---|---|
 | Python | 3.10 |
 | Django | 5.1 |
@@ -45,7 +47,7 @@ mondo_nba_orchestrator/
 | requests | 2.32.3 |
 
 ### Frontend
-| Package | Versione |
+| Package | Version |
 |---|---|
 | Vue.js | 3 |
 | Vite | 5.4 |
@@ -54,7 +56,7 @@ mondo_nba_orchestrator/
 | Axios | latest |
 | Bootstrap | 5.3 |
 
-## Avvio
+## Avvio / Getting started
 
 ### Backend
 ```bash
@@ -64,26 +66,22 @@ pipenv install
 pipenv run python manage.py migrate
 pipenv run python manage.py runserver
 ```
-Server su **http://127.0.0.1:8000/**
+Server su **http://127.0.0.1:8000/** — Server at **http://127.0.0.1:8000/**
 
 API: `http://127.0.0.1:8000/api/` (products, cart, comments, payments, auth)
 
-### Frontend (sviluppo)
-```bash
-cd mondo_nba_orchestrator/mondo_nba_frontend
-npm install
-npm run dev
-```
-Frontend su **http://127.0.0.1:5173/**
+Il frontend Vue viene servito come SPA dal backend Django sulla stessa porta.
 
-### Produzione
+The Vue frontend is served as an SPA by the Django backend on the same port.
+
+### Produzione / Production
 ```bash
-cd mondo_nba_orchestrator/mondo_nba_frontend && npm run build
+cd mondo_nba_orchestrator/mondo_nba_frontend && npm install && npm run build
 cp -r dist/* ../mondo_nba_backend/static/
 cp ../mondo_nba_backend/static/index.html ../mondo_nba_backend/templates/index.html
 cd ../mondo_nba_backend && pipenv run python manage.py runserver
 ```
-Solo il backend su porta 8000.
+Solo il backend su porta 8000. / Only the backend on port 8000.
 
 ## Test
 ```bash
@@ -97,20 +95,22 @@ pipenv run ruff check .
 pipenv run mypy --explicit-package-bases .
 ```
 
-## Stripe (pagamenti)
+## Stripe (pagamenti / payments)
 Le variabili d'ambiente sono in `setupVariables.sh` (non committato):
+Environment variables are in `setupVariables.sh` (not committed):
 - `STRIPE_SECRET_KEY_TEST`
 - `STRIPE_PUBLIC_KEY_TEST`
 - `STRIPE_WEBHOOK_SECRET_TEST`
 - `PRODUCT_PRICE`
 
 Avvia il listener webhook:
+Start the webhook listener:
 ```bash
 ./stripe listen --forward-to http://127.0.0.1:8000/gestione/stripe_webhook --api-key $STRIPE_SECRET_KEY_TEST
 ```
 
-Carta di test: `4242 4242 4242 4242`
+Carta di test: `4242 4242 4242 4242` / Test card: `4242 4242 4242 4242`
 
-## Credenziali gestore
+## Credenziali gestore / Manager credentials
 - Username: `admin`
 - Password: `admin`
