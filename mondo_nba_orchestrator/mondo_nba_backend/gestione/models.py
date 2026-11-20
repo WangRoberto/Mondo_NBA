@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.db import models
 
 
@@ -26,7 +26,7 @@ class Product(models.Model):
         return range(5 - self.valuation)
 
 class Cart(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cartUser")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="cartUser")
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="cartProduct")
     quantity = models.IntegerField(default=0)
     
@@ -38,7 +38,7 @@ class Cart(models.Model):
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="commentUser")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="commentUser")
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="commentProduct")
     content = models.CharField(max_length=1000)
     valuation = models.IntegerField(default=3)
@@ -57,7 +57,7 @@ class Comment(models.Model):
         return range(5 - self.valuation)
 
 class UserPayment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="userPaymentId")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="userPaymentId")
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, related_name="userPaymentProduct")
     quantity = models.IntegerField(default=0)
     payment_bool = models.BooleanField(default=False)

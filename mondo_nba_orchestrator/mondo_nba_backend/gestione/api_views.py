@@ -148,7 +148,7 @@ class PaymentListAPIView(APIView):
 
 # --- Auth ---
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from rest_framework import status as drf_status
 from rest_framework.authtoken.models import Token
 
@@ -173,6 +173,7 @@ class RegisterAPIView(APIView):
         username = request.data.get("username")
         email = request.data.get("email", "")
         password = request.data.get("password")
+        User = get_user_model()
         if User.objects.filter(username=username).exists():
             return Response({"detail": "Username già in uso"}, status=drf_status.HTTP_400_BAD_REQUEST)
         user = User.objects.create_user(username=username, email=email, password=password)

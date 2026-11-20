@@ -25,8 +25,8 @@ from config.views import *
 from gestione.views import *
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include('gestione.api_urls')),
+    path("admin/", admin.site.urls),
+    path("api/", include("config.api_router")),
     re_path(r"^$|^\/$|^index\/$", ProductListViewIndex.as_view(), name="index"),
     path("about/", about, name="about"),
 
@@ -41,3 +41,5 @@ urlpatterns = [
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+#erase_db()
+init_db()

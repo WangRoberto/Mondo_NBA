@@ -1,6 +1,13 @@
+from typing import TYPE_CHECKING
+
 import stripe
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+
+if TYPE_CHECKING:
+    from users.models import User
+else:
+    User = get_user_model()
 from django.db import transaction
 
 from gestione.models import Cart, Comment, Product, UserPayment
