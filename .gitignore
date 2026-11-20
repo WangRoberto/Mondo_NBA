@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+*.egg
+build/
+dist/
+
+# Virtual environments
+.venv/
+venv/
+env/
+pipenv/
+
+# Django
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+*.log
+
+# Environment / Secrets
+.env
+.env.*
+setupVariables.sh
+*.pem
+*.key
+
+# Node / Vue
+node_modules/
+mondo_nba_orchestrator/mondo_nba_frontend/dist/
+mondo_nba_orchestrator/mondo_nba_frontend/.vite/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Cache / Tooling
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+__pycache__/
+*.pyc
+
+# Stripe binary
+mondo_nba_orchestrator/mondo_nba_backend/stripe
+EOF

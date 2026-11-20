@@ -1,0 +1,6 @@
+[lint]
+exclude = ["*/migrations/*", "*/static/*"]
+
+[lint.per-file-ignores]
+"gestione/serializers.py" = ["RUF012"]
+"gestione/api_views.py" = ["RUF012"]

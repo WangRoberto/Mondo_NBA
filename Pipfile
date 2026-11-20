@@ -5,8 +5,14 @@ name = "pypi"
 
 [packages]
 django = "*"
+djangorestframework = "*"
+django-cors-headers = "*"
 
 [dev-packages]
+ruff = "*"
+mypy = "*"
+django-stubs = "*"
+djangorestframework-stubs = "*"
 
 [requires]
 python_version = "3.10"

@@ -1,0 +1,6 @@
+[tool.ruff]
+exclude = ["*/migrations/*", "*/static/*"]
+
+[tool.ruff.lint.per-file-ignores]
+"gestione/serializers.py" = ["RUF012"]
+"gestione/api_views.py" = ["RUF012"]
