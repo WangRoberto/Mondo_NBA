@@ -10,16 +10,21 @@ E-commerce demo for NBA merchandise, refactored with monorepo architecture: Djan
 mondo_nba_orchestrator/
 ├── mondo_nba_backend/          # Django 5.1 + Django REST Framework
 │   ├── config/                 # Settings, URL routing, WSGI/ASGI
+│   │   ├── settings/           # base.py, local.py, production.py, test.py
+│   │   ├── api_router.py       # API URL routing
+│   │   ├── urls.py             # URL routing
+│   │   ├── wsgi.py / asgi.py   # Server entry points
+│   │   └── views.py            # Template views (legacy)
 │   ├── gestione/               # Main app
 │   │   ├── models.py           # Product, Cart, Comment, UserPayment
 │   │   ├── serializers.py      # DRF serializers
 │   │   ├── api_views.py        # Thin APIViews (delegate to services)
-│   │   ├── api_urls.py         # API URL routing
 │   │   ├── services.py         # Business logic (push to DB)
 │   │   ├── selectors.py        # Read queries (pull from DB)
 │   │   └── views.py            # Template views (legacy)
-│   ├── manage.py
-│   ├── setupVariables.sh       # Stripe env vars (not committed)
+│   ├── users/                  # Custom user model (AbstractUser)
+│   ├── manage.py               # APPS_DIR added to sys.path
+│   ├── .env                    # Environment variables (not committed)
 │   └── stripe                  # Stripe CLI binary
 └── mondo_nba_frontend/         # Vue 3 + Vite 5 + Pinia + Vue Router
     ├── src/
@@ -41,6 +46,7 @@ mondo_nba_orchestrator/
 | Django REST Framework | latest |
 | django-cors-headers | latest |
 | djangorestframework-authtoken | latest |
+| django-environ | latest |
 | Stripe | 10.9.0 |
 | Pillow | 10.4.0 |
 | python-dotenv | 1.0.1 |
@@ -61,8 +67,8 @@ mondo_nba_orchestrator/
 ### Backend
 ```bash
 cd mondo_nba_orchestrator/mondo_nba_backend
-source setupVariables.sh
 pipenv install
+# Crea il file .env con le variabili d'ambiente (vedi sezione Stripe)
 pipenv run python manage.py migrate
 pipenv run python manage.py runserver
 ```
@@ -96,12 +102,29 @@ pipenv run mypy --explicit-package-bases .
 ```
 
 ## Stripe (pagamenti / payments)
-Le variabili d'ambiente sono in `setupVariables.sh` (non committato):
-Environment variables are in `setupVariables.sh` (not committed):
+Le variabili d'ambiente sono in `.env` (non committato):
+Environment variables are in `.env` (not committed):
 - `STRIPE_SECRET_KEY_TEST`
 - `STRIPE_PUBLIC_KEY_TEST`
 - `STRIPE_WEBHOOK_SECRET_TEST`
 - `PRODUCT_PRICE`
+- `DJANGO_SECRET_KEY`
+- `DJANGO_DEBUG`
+- `DJANGO_ALLOWED_HOSTS`
+- `DJANGO_READ_DOT_ENV_FILE`
+
+Esempio `.env`:
+Example `.env`:
+```
+DJANGO_SECRET_KEY=your-secret-key
+DJANGO_DEBUG=True
+DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
+DJANGO_READ_DOT_ENV_FILE=True
+STRIPE_SECRET_KEY_TEST=sk_test_...
+STRIPE_PUBLIC_KEY_TEST=pk_test_...
+STRIPE_WEBHOOK_SECRET_TEST=whsec_...
+PRODUCT_PRICE=price_...
+```
 
 Avvia il listener webhook:
 Start the webhook listener:
@@ -110,6 +133,16 @@ Start the webhook listener:
 ```
 
 Carta di test: `4242 4242 4242 4242` / Test card: `4242 4242 4242 4242`
+
+## Settings
+I settings sono divisi in `config/settings/`:
+Settings are split in `config/settings/`:
+- `base.py` — impostazioni comuni (common settings)
+- `local.py` — sviluppo (development)
+- `production.py` — produzione (production)
+- `test.py` — test
+
+Default: `config.settings.local` (impostato in `manage.py`).
 
 ## Credenziali gestore / Manager credentials
 - Username: `admin`
